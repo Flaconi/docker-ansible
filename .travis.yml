@@ -54,10 +54,10 @@ script:
   - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
       echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin &&
       if [ "${TRAVIS_BRANCH}" == "master" ]; then
-        echo "[NOP] docker push \"${image}:${TAG}\"";
+        docker push "${image}:${TAG}";
       elif [ -n "${TRAVIS_TAG}" ]; then
-        echo "[NOP] docker tag \"${image}:${TAG}\" \"${image}:${TAG}-${TRAVIS_TAG}\"";
-        echo "[NOP] docker push \"${image}:${TAG}-${TRAVIS_TAG}\"";
+        docker tag "${image}:${TAG}" "${image}:${TAG}-${TRAVIS_TAG}";
+        docker push "${image}:${TAG}-${TRAVIS_TAG}";
       else
         echo "Skipping push to dockerhub on normal branches";
       fi
