@@ -1,0 +1,66 @@
+---
+
+###
+### Travis settings
+###
+sudo: required
+services:
+  - docker
+
+
+###
+### Env variables
+###
+env:
+  global:
+    - image=flaconi/ansible
+  matrix:
+    - TAG=amazon-2016
+    - TAG=amazon-2017
+    - TAG=centos-7
+    - TAG=debian-jessie
+    - TAG=debian-jessie-slim
+    - TAG=debian-stretch
+    - TAG=debian-stretch-slim
+    - TAG=debian-stretch-aws-slim
+    - TAG=debian-wheezy
+    - TAG=debian-wheezy-slim
+    - TAG=debian-wheezy-aws
+    - TAG=debian-wheezy-aws-slim
+    - TAG=oracle-7
+
+###
+### Install requirements
+###
+install:
+  # Get newer docker version
+  - max=100; i=0; while [ $i -lt $max ]; do if sudo apt-get update; then break; else i=$((i+1)); fi done
+  - max=100; i=0; while [ $i -lt $max ]; do if sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce; then break; else i=$((i+1)); fi done
+  - docker version
+
+
+###
+### Build Docker images
+###
+before_script:
+  - make build-${TAG}
+  - docker images
+
+
+###
+### Push Docker images
+###
+script:
+  - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
+      echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin &&
+      if [ "${TRAVIS_BRANCH}" == "master" ]; then
+        echo "[NOP] docker push \"${image}:${TAG}\"";
+      elif [ -n "${TRAVIS_TAG}" ]; then
+        echo "[NOP] docker tag \"${image}:${TAG}\" \"${image}:${TAG}-${TRAVIS_TAG}\"";
+        echo "[NOP] docker push \"${image}:${TAG}-${TRAVIS_TAG}\"";
+      else
+        echo "Skipping push to dockerhub on normal branches";
+      fi
+    else
+      echo "Skipping push to dockerhub on PR";
+    fi
