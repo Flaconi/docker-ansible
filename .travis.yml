@@ -64,3 +64,14 @@ script:
     else
       echo "Skipping push to dockerhub on PR";
     fi
+
+
+###
+### Notifications
+###
+notifications:
+  slack:
+    rooms:
+      - "${SLACK_ACCOUNT}:${SLACK_TOKEN}#${SLACK_ROOM}"
+    on_success: change # default: always
+    on_failure: always # default: always
