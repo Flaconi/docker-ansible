@@ -31,31 +31,11 @@ install:
 
 
 ###
-### Build Docker images
+### Build and test Docker images
 ###
 before_script:
-  - make update-base
   - make build-${TAG//.}
-
-  # Test if it exists
-  - if ! docker images | grep "${image}" | grep "${TAG}"; then
-        docker images;
-        false;
-    fi
-
-  # Test for correct version
-  - if [ "${TAG}" != "latest" ]; then
-        docker run --rm "${image}:${TAG}" ansible --version | grep "ansible ${TAG}";
-    else
-        latest="$( curl -q https://api.github.com/repos/ansible/ansible/git/refs/tags 2>/dev/null
-                | grep '"ref"'
-                | grep -Eo 'v[.0-9]+'
-                | grep -Eo '[.0-9]+'
-                | sort -Vu
-                | tail -1 )";
-        echo "latest ${latest}";
-        docker run --rm "${image}:${TAG}" ansible --version | grep "ansible ${latest}";
-    fi
+  - make test-${TAG//.}
 
 
 ###

@@ -17,6 +17,9 @@ Docker images used for testing Ansible roles
 # Build everything
 $ make build-all
 
-# Get help how to build
+# Testin everything
+$ make test-all
+
+# More info about what you can do
 $ make help
 ```
