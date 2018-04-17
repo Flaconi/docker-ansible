@@ -1,7 +1,25 @@
-# ansible-docker-images
-[![Docker Automated buil](https://img.shields.io/docker/automated/danvaida/ansible-docker-images.svg)](https://hub.docker.com/r/danvaida/ansible-docker-images/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/danvaida/ansible-docker-images.svg)](https://hub.docker.com/r/danvaida/ansible-docker-images/)
-[![ImageLayers Size](https://img.shields.io/imagelayers/image-size/_/danvaida/ansible-docker-images.svg)](https://hub.docker.com/r/danvaida/ansible-docker-images/)
-[![ImageLayers Layers](https://img.shields.io/imagelayers/layers/_/danvaida/ansible-docker-images.svg)](https://hub.docker.com/r/danvaida/ansible-docker-images/)
+# Docker Ansible base image
+
+[![Build Status](https://travis-ci.org/Flaconi/docker-ansible.svg?branch=master)](https://travis-ci.org/Flaconi/docker-ansible)
+[![Dockerhub](https://img.shields.io/badge/dockerhub-ansible-blue.svg)](https://hub.docker.com/r/flaconi/ansible)
 
 Docker images used for testing Ansible roles
+
+
+## Images
+
+#### [flaconi/ansible](https://hub.docker.com/r/flaconi/ansible/tags)
+
+
+## Build locally
+
+```bash
+# Build everything
+$ make build-all
+
+# Testin everything
+$ make test-all
+
+# More info about what you can do
+$ make help
+```

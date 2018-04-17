@@ -1,0 +1,68 @@
+---
+
+###
+### Travis settings
+###
+sudo: required
+services:
+  - docker
+
+
+###
+### Env variables
+###
+env:
+  global:
+    - image=flaconi/ansible
+  matrix:
+    - TAG=2.3
+    - TAG=2.4
+    - TAG=2.5
+    - TAG=latest
+
+###
+### Install requirements
+###
+install:
+  # Get newer docker version
+  - max=100; i=0; while [ $i -lt $max ]; do if sudo apt-get update; then break; else i=$((i+1)); fi done
+  - max=100; i=0; while [ $i -lt $max ]; do if sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce; then break; else i=$((i+1)); fi done
+  - docker version
+
+
+###
+### Build and test Docker images
+###
+before_script:
+  - make build-${TAG//.}
+  - make test-${TAG//.}
+
+
+###
+### Push Docker images
+###
+script:
+  - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
+      echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin &&
+      if [ "${TRAVIS_BRANCH}" == "master" ]; then
+        docker push "${image}:${TAG}";
+      elif [ -n "${TRAVIS_TAG}" ]; then
+        docker tag "${image}:${TAG}" "${image}:${TAG}-${TRAVIS_TAG}";
+        docker push "${image}:${TAG}-${TRAVIS_TAG}";
+      else
+        echo "Skipping push to dockerhub on normal branches";
+      fi
+    else
+      echo "Skipping push to dockerhub on PR";
+    fi
+
+
+###
+### Notifications
+###
+notifications:
+  slack:
+    rooms:
+      - "${SLACK_ACCOUNT}:${SLACK_TOKEN}#${SLACK_ROOM}"
+    on_success: change # default: always
+    on_failure: always # default: always
