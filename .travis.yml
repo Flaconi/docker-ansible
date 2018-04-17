@@ -48,7 +48,7 @@ script:
         docker push "${image}:${TAG}";
       elif [ -n "${TRAVIS_TAG}" ]; then
         docker tag "${image}:${TAG}" "${image}:${TAG}-${TRAVIS_TAG}";
-        docker push "${image}:${TAG}-${TRtAVIS_TAG}";
+        docker push "${image}:${TAG}-${TRAVIS_TAG}";
       else
         echo "Skipping push to dockerhub on normal branches";
       fi
