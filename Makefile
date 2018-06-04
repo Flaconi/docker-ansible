@@ -55,7 +55,7 @@ test-all: test-latest test-23 test-24 test-25
 ### Build Single
 ###
 test-latest:
-	$(eval LATEST = $(shell curl -q https://api.github.com/repos/ansible/ansible/git/refs/tags 2>/dev/null | grep '"ref"' | grep -Eo 'v[.0-9]+' | grep -Eo '[.0-9]+' | sort -Vu | tail -1))
+	$(eval LATEST = $(shell curl -q https://api.github.com/repos/ansible/ansible/git/refs/tags 2>/dev/null | grep '"ref"' | grep -Eo 'v[.0-9]+"' | grep -Eo '[.0-9]+' | sort -Vu | tail -1))
 	docker images | grep 'flaconi/ansible' | grep 'latest'
 	docker run --rm flaconi/ansible:latest ansible --version | grep "$(LATEST)"
 
