@@ -11,6 +11,7 @@ RUN set -x \
 		apt-transport-https \
 		bc \
 		ca-certificates \
+		git \
 		gnupg \
 		libssl-dev \
 		python-dev \
