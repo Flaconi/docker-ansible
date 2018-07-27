@@ -18,6 +18,7 @@ env:
     - TAG=2.3
     - TAG=2.4
     - TAG=2.5
+    - TAG=2.6
     - TAG=latest
 
 ###

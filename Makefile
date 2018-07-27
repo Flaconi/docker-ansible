@@ -8,12 +8,14 @@ help:
 	@printf "%s\n"   "make build-latest:    Build Ansible latest Docker image"
 	@printf "%s\n"   "make build-23:        Build Ansible 2.3 Docker image"
 	@printf "%s\n"   "make build-24:        Build Ansible 2.4 Docker image"
-	@printf "%s\n\n" "make build-25:        Build Ansible 2.5 Docker image"
+	@printf "%s\n"   "make build-25:        Build Ansible 2.5 Docker image"
+	@printf "%s\n\n" "make build-26:        Build Ansible 2.6 Docker image"
 	@printf "%s\n"   "make test-all:        Test all images (see below)"
 	@printf "%s\n"   "make test-latest:     Test Ansible latest Docker image"
 	@printf "%s\n"   "make test-23:         Test Ansible 2.3 Docker image"
 	@printf "%s\n"   "make test-24:         Test Ansible 2.4 Docker image"
-	@printf "%s\n\n" "make test-25:         Test Ansible 2.5 Docker image"
+	@printf "%s\n"   "make test-25:         Test Ansible 2.5 Docker image"
+	@printf "%s\n\n" "make test-26:         Test Ansible 2.6 Docker image"
 
 
 ###
@@ -26,7 +28,7 @@ update-base:
 ###
 ### Build all
 ###
-build-all: build-latest build-23 build-24 build-25
+build-all: build-latest build-23 build-24 build-25 build-26
 
 
 ###
@@ -44,11 +46,14 @@ build-24: update-base
 build-25: update-base
 	docker build --build-arg ANSIBLE_VERSION=2.5 -t flaconi/ansible:2.5 .
 
+build-26: update-base
+	docker build --build-arg ANSIBLE_VERSION=2.6 -t flaconi/ansible:2.6 .
+
 
 ###
 ### Test all
 ###
-test-all: test-latest test-23 test-24 test-25
+test-all: test-latest test-23 test-24 test-25 test-26
 
 
 ###
@@ -70,3 +75,7 @@ test-24:
 test-25:
 	docker images | grep 'flaconi/ansible' | grep '2.5'
 	docker run --rm flaconi/ansible:2.5 ansible --version | grep '2.5'
+
+test-26:
+	docker images | grep 'flaconi/ansible' | grep '2.6'
+	docker run --rm flaconi/ansible:2.6 ansible --version | grep '2.6'
