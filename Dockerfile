@@ -1,6 +1,6 @@
 FROM debian:stretch-slim
 
-LABEL maintainer devops@flaconi.de
+LABEL maintainer="devops@flaconi.de"
 
 ARG ANSIBLE_VERSION=
 

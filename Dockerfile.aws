@@ -1,0 +1,9 @@
+ARG ANSIBLE_VERSION=${ANSIBLE_VERSION}
+FROM flaconi/ansible:${ANSIBLE_VERSION}
+
+LABEL maintainer="devops@flaconi.de"
+
+RUN pip install --no-cache-dir \
+      boto \
+      boto3 \
+      botocore
