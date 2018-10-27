@@ -15,6 +15,7 @@ RUN set -x \
 
 RUN set -x \
 	&& pip install --no-cache-dir \
+		aws \
 		awscli \
 		boto \
 		boto3 \
