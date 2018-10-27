@@ -23,6 +23,8 @@ env:
     - TAG=2.5-aws
     - TAG=2.6
     - TAG=2.6-aws
+    - TAG=2.7
+    - TAG=2.7-aws
     - TAG=latest
     - TAG=latest-aws
 
