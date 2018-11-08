@@ -3,7 +3,29 @@ FROM flaconi/ansible:${ANSIBLE_VERSION}
 
 LABEL maintainer="devops@flaconi.de"
 
-RUN pip install --no-cache-dir \
-      boto \
-      boto3 \
-      botocore
+RUN set -x \
+	&& DEBIAN_FRONTEND=noninteractive \
+	&& apt-get update -y \
+	&& apt-get install --no-install-recommends --no-install-suggests -y \
+		curl \
+	&& apt-get remove -f -y --purge --auto-remove \
+	&& apt-get clean \
+	&& apt-get autoremove -y \
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
+
+RUN set -x \
+	&& pip install --no-cache-dir \
+		aws \
+		awscli \
+		boto \
+		boto3 \
+		botocore \
+		openshift
+
+RUN set -x \
+	&& curl -Lo /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+	&& chmod +x /usr/local/bin/kubectl
+
+RUN set -x \
+	&& curl -Lo /usr/local/bin/kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 \
+	&& chmod +x /usr/local/bin/kops

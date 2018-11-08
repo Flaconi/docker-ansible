@@ -21,10 +21,13 @@ RUN set -x \
 		python-cffi \
 		build-essential \
 	&& if [ -z "${ANSIBLE_VERSION}" ]; then \
-			pip install ansible;\
+			pip install --no-cache-dir ansible;\
 		else \
-			pip install "ansible>=${ANSIBLE_VERSION},<$(echo "${ANSIBLE_VERSION}+0.1" | bc)"; \
+			pip install --no-cache-dir "ansible>=${ANSIBLE_VERSION},<$(echo "${ANSIBLE_VERSION}+0.1" | bc)"; \
 		fi \
+	&& pip install --no-cache-dir \
+		jmespath \
+		pyaml \
 	&& apt-get remove -f -y --purge --auto-remove build-essential bc \
 	&& apt-get clean \
 	&& apt-get autoremove -y \
