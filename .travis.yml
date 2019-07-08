@@ -9,6 +9,12 @@ services:
 
 
 ###
+### Language
+###
+language: minimal
+
+
+###
 ### Env variables
 ###
 env:
@@ -32,18 +38,23 @@ env:
 ### Install requirements
 ###
 install:
-  # Get newer docker version
-  - max=100; i=0; while [ $i -lt $max ]; do if sudo apt-get update; then break; else i=$((i+1)); fi done
-  - max=100; i=0; while [ $i -lt $max ]; do if sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce; then break; else i=$((i+1)); fi done
-  - docker version
+  - retry() {
+      for ((n=0; n<10; n++)); do
+        echo "[${n}] ${*}";
+        if eval "${*}"; then
+          return 0;
+        fi;
+      done;
+      return 1;
+    }
 
 
 ###
 ### Build and test Docker images
 ###
 before_script:
-  - make build-${TAG//.}
-  - make test-${TAG//.}
+  - retry make build-${TAG//.}
+  - retry make test-${TAG//.}
 
 
 ###
