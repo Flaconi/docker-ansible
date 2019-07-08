@@ -3,7 +3,7 @@ FROM flaconi/ansible:${ANSIBLE_VERSION}
 
 LABEL maintainer="devops@flaconi.de"
 
-RUN set -x \
+RUN set -eux \
 	&& DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update -y \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
@@ -13,7 +13,7 @@ RUN set -x \
 	&& apt-get autoremove -y \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
 
-RUN set -x \
+RUN set -eux \
 	&& pip install --no-cache-dir \
 		aws \
 		awscli \
@@ -22,10 +22,14 @@ RUN set -x \
 		botocore \
 		openshift
 
-RUN set -x \
+RUN set -eux \
 	&& curl -Lo /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
-	&& chmod +x /usr/local/bin/kubectl
+	&& chmod +x /usr/local/bin/kubectl \
+	&& kubectl version --client --short=true 2>&1 \
+	&& kubectl version --client --short=true 2>&1 | grep -E 'v[.0-9]+'
 
-RUN set -x \
+RUN set -eux \
 	&& curl -Lo /usr/local/bin/kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 \
-	&& chmod +x /usr/local/bin/kops
+	&& chmod +x /usr/local/bin/kops \
+	&& kops version \
+	&& kops version | grep -E '^Version\s+[.0-9]+'
