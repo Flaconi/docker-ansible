@@ -21,10 +21,6 @@ env:
   global:
     - image=flaconi/ansible
   matrix:
-    - TAG=2.3
-    - TAG=2.3-aws
-    - TAG=2.4
-    - TAG=2.4-aws
     - TAG=2.5
     - TAG=2.5-aws
     - TAG=2.6
@@ -33,6 +29,12 @@ env:
     - TAG=2.7-aws
     - TAG=2.8
     - TAG=2.8-aws
+    - TAG=2.9
+    - TAG=2.9-aws
+    - TAG=2.10
+    - TAG=2.10-aws
+    - TAG=2.11
+    - TAG=2.11-aws
     - TAG=latest
     - TAG=latest-aws
 
