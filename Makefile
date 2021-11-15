@@ -9,29 +9,29 @@ help:
 	@printf "%s\n"   "make build-23:        Build Ansible 2.3 Docker image"
 	@printf "%s\n"   "make build-24:        Build Ansible 2.4 Docker image"
 	@printf "%s\n"   "make build-25:        Build Ansible 2.5 Docker image"
-	@printf "%s\n" "make build-26:        Build Ansible 2.6 Docker image"
-	@printf "%s\n" "make build-27:        Build Ansible 2.7 Docker image"
-	@printf "%s\n" "make build-28:        Build Ansible 2.8 Docker image"
-	@printf "%s\n" "make build-29:        Build Ansible 2.9 Docker image"
-	@printf "%s\n" "make build-210:        Build Ansible 2.10 Docker image"
-	@printf "%s\n\n" "make build-211:        Build Ansible 2.11 Docker image"
+	@printf "%s\n"   "make build-26:        Build Ansible 2.6 Docker image"
+	@printf "%s\n"   "make build-27:        Build Ansible 2.7 Docker image"
+	@printf "%s\n"   "make build-28:        Build Ansible 2.8 Docker image"
+	@printf "%s\n"   "make build-29:        Build Ansible 2.9 Docker image"
+	@printf "%s\n"   "make build-210:       Build Ansible 2.10 Docker image"
+	@printf "%s\n\n" "make build-211:       Build Ansible 2.11 Docker image"
 	@printf "%s\n"   "make test-all:        Test all images (see below)"
 	@printf "%s\n"   "make test-latest:     Test Ansible latest Docker image"
 	@printf "%s\n"   "make test-23:         Test Ansible 2.3 Docker image"
 	@printf "%s\n"   "make test-24:         Test Ansible 2.4 Docker image"
 	@printf "%s\n"   "make test-25:         Test Ansible 2.5 Docker image"
-	@printf "%s\n" "make test-26:         Test Ansible 2.6 Docker image"
-	@printf "%s\n" "make test-27:         Test Ansible 2.7 Docker image"
-	@printf "%s\n" "make test-28:         Test Ansible 2.8 Docker image"
-	@printf "%s\n" "make test-29:         Test Ansible 2.9 Docker image"
-	@printf "%s\n" "make test-210:         Test Ansible 2.10 Docker image"
-	@printf "%s\n\n" "make test-211:         Test Ansible 2.11 Docker image"
+	@printf "%s\n"   "make test-26:         Test Ansible 2.6 Docker image"
+	@printf "%s\n"   "make test-27:         Test Ansible 2.7 Docker image"
+	@printf "%s\n"   "make test-28:         Test Ansible 2.8 Docker image"
+	@printf "%s\n"   "make test-29:         Test Ansible 2.9 Docker image"
+	@printf "%s\n"   "make test-210:        Test Ansible 2.10 Docker image"
+	@printf "%s\n\n" "make test-211:        Test Ansible 2.11 Docker image"
 
 ###
 ### Update
 ###
 update-base:
-	docker pull debian:stretch-slim
+	docker pull debian:bullseye-slim
 
 
 ###
