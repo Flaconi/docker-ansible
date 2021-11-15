@@ -74,7 +74,7 @@ build-28-aws: build-28
 	docker build --build-arg ANSIBLE_VERSION=2.8 -t flaconi/ansible:2.8-aws -f ./Dockerfile.aws .
 
 build-29: update-base
-	docker build --build-arg ANSIBLE_VERSION=2.8 -t flaconi/ansible:2.9 .
+	docker build --build-arg ANSIBLE_VERSION=2.9 -t flaconi/ansible:2.9 .
 
 build-29-aws: build-29
 	docker build --build-arg ANSIBLE_VERSION=2.9 -t flaconi/ansible:2.9-aws -f ./Dockerfile.aws .
