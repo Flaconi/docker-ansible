@@ -21,7 +21,7 @@ RUN set -x \
 		python3-cffi \
 		build-essential \
 	&& if [ -z "${ANSIBLE_VERSION}" ]; then \
-			pip3 install --no-cache-dir ansible;\
+			pip3 install --no-cache-dir ansible-core;\
 		else \
 			pip3 install --no-cache-dir "ansible>=${ANSIBLE_VERSION},<$(echo "$(echo ${ANSIBLE_VERSION}|cut -f1 -d.).$(echo ${ANSIBLE_VERSION}+1|cut -f2 -d.|bc)")"; \
 		fi \
