@@ -9,29 +9,33 @@ help:
 	@printf "%s\n"   "make build-23:        Build Ansible 2.3 Docker image"
 	@printf "%s\n"   "make build-24:        Build Ansible 2.4 Docker image"
 	@printf "%s\n"   "make build-25:        Build Ansible 2.5 Docker image"
-	@printf "%s\n\n" "make build-26:        Build Ansible 2.6 Docker image"
-	@printf "%s\n\n" "make build-27:        Build Ansible 2.7 Docker image"
-	@printf "%s\n\n" "make build-28:        Build Ansible 2.8 Docker image"
+	@printf "%s\n"   "make build-26:        Build Ansible 2.6 Docker image"
+	@printf "%s\n"   "make build-27:        Build Ansible 2.7 Docker image"
+	@printf "%s\n"   "make build-28:        Build Ansible 2.8 Docker image"
+	@printf "%s\n"   "make build-29:        Build Ansible 2.9 Docker image"
+	@printf "%s\n\n" "make build-210:       Build Ansible 2.10 Docker image"
 	@printf "%s\n"   "make test-all:        Test all images (see below)"
 	@printf "%s\n"   "make test-latest:     Test Ansible latest Docker image"
 	@printf "%s\n"   "make test-23:         Test Ansible 2.3 Docker image"
 	@printf "%s\n"   "make test-24:         Test Ansible 2.4 Docker image"
 	@printf "%s\n"   "make test-25:         Test Ansible 2.5 Docker image"
-	@printf "%s\n\n" "make test-26:         Test Ansible 2.6 Docker image"
-	@printf "%s\n\n" "make test-27:         Test Ansible 2.7 Docker image"
-	@printf "%s\n\n" "make test-28:         Test Ansible 2.8 Docker image"
+	@printf "%s\n"   "make test-26:         Test Ansible 2.6 Docker image"
+	@printf "%s\n"   "make test-27:         Test Ansible 2.7 Docker image"
+	@printf "%s\n"   "make test-28:         Test Ansible 2.8 Docker image"
+	@printf "%s\n"   "make test-29:         Test Ansible 2.9 Docker image"
+	@printf "%s\n\n" "make test-210:        Test Ansible 2.10 Docker image"
 
 ###
 ### Update
 ###
 update-base:
-	docker pull debian:stretch-slim
+	docker pull debian:bullseye-slim
 
 
 ###
 ### Build all
 ###
-build-all: build-latest build-latest-aws build-23 build-23-aws build-24 build-24-aws build-25 build-25-aws build-26 build-26-aws build-27 build-27-aws build-28 build-28-aws
+build-all: build-latest build-latest-aws build-23 build-23-aws build-24 build-24-aws build-25 build-25-aws build-26 build-26-aws build-27 build-27-aws build-28 build-28-aws build-29 build-29-aws build-210 build-210-aws build-211 build-211-aws
 
 
 ###
@@ -42,18 +46,6 @@ build-latest: update-base
 
 build-latest-aws: build-latest
 	docker build --build-arg ANSIBLE_VERSION=latest -t flaconi/ansible:latest-aws -f ./Dockerfile.aws .
-
-build-23: update-base
-	docker build --build-arg ANSIBLE_VERSION=2.3 -t flaconi/ansible:2.3 .
-
-build-23-aws: build-23
-	docker build --build-arg ANSIBLE_VERSION=2.3 -t flaconi/ansible:2.3-aws -f ./Dockerfile.aws .
-
-build-24: update-base
-	docker build --build-arg ANSIBLE_VERSION=2.4 -t flaconi/ansible:2.4 .
-
-build-24-aws: build-24
-	docker build --build-arg ANSIBLE_VERSION=2.4 -t flaconi/ansible:2.4-aws -f ./Dockerfile.aws .
 
 build-25: update-base
 	docker build --build-arg ANSIBLE_VERSION=2.5 -t flaconi/ansible:2.5 .
@@ -79,6 +71,18 @@ build-28: update-base
 build-28-aws: build-28
 	docker build --build-arg ANSIBLE_VERSION=2.8 -t flaconi/ansible:2.8-aws -f ./Dockerfile.aws .
 
+build-29: update-base
+	docker build --build-arg ANSIBLE_VERSION=2.9 -t flaconi/ansible:2.9 .
+
+build-29-aws: build-29
+	docker build --build-arg ANSIBLE_VERSION=2.9 -t flaconi/ansible:2.9-aws -f ./Dockerfile.aws .
+
+build-210: update-base
+	docker build --build-arg ANSIBLE_VERSION=2.10 -t flaconi/ansible:2.10 .
+
+build-210-aws: build-210
+	docker build --build-arg ANSIBLE_VERSION=2.10 -t flaconi/ansible:2.10-aws -f ./Dockerfile.aws .
+
 ###
 ### Test all
 ###
@@ -99,28 +103,6 @@ test-latest-aws:
 	docker run --rm flaconi/ansible:latest-aws aws --version 2>&1 | grep -E '^aws-cli/[.0-9]+'
 	docker run --rm flaconi/ansible:latest-aws kubectl version --client --short=true 2>&1 | grep -E 'v[.0-9]+'
 	docker run --rm flaconi/ansible:latest-aws kops version | grep -E '^Version\s+[.0-9]+'
-
-test-23:
-	docker images | grep 'flaconi/ansible' | grep -E '2.3\s'
-	docker run --rm flaconi/ansible:2.3 ansible --version | grep '2.3'
-
-test-23-aws:
-	docker images | grep 'flaconi/ansible' | grep '2.3-aws'
-	docker run --rm flaconi/ansible:2.3-aws ansible --version | grep '2.3'
-	docker run --rm flaconi/ansible:2.3-aws aws --version 2>&1 | grep -E '^aws-cli/[.0-9]+'
-	docker run --rm flaconi/ansible:2.3-aws kubectl version --client --short=true 2>&1 | grep -E 'v[.0-9]+'
-	docker run --rm flaconi/ansible:2.3-aws kops version | grep -E '^Version\s+[.0-9]+'
-
-test-24:
-	docker images | grep 'flaconi/ansible' | grep -E '2.4\s'
-	docker run --rm flaconi/ansible:2.4 ansible --version | grep '2.4'
-
-test-24-aws:
-	docker images | grep 'flaconi/ansible' | grep '2.4-aws'
-	docker run --rm flaconi/ansible:2.4-aws ansible --version | grep '2.4'
-	docker run --rm flaconi/ansible:2.4-aws aws --version 2>&1 | grep -E '^aws-cli/[.0-9]+'
-	docker run --rm flaconi/ansible:2.4-aws kubectl version --client --short=true 2>&1 | grep -E 'v[.0-9]+'
-	docker run --rm flaconi/ansible:2.4-aws kops version | grep -E '^Version\s+[.0-9]+'
 
 test-25:
 	docker images | grep 'flaconi/ansible' | grep -E '2.5\s'
@@ -165,3 +147,25 @@ test-28-aws:
 	docker run --rm flaconi/ansible:2.8-aws aws --version 2>&1 | grep -E '^aws-cli/[.0-9]+'
 	docker run --rm flaconi/ansible:2.8-aws kubectl version --client --short=true 2>&1 | grep -E 'v[.0-9]+'
 	docker run --rm flaconi/ansible:2.8-aws kops version | grep -E '^Version\s+[.0-9]+'
+
+test-29:
+	docker images | grep 'flaconi/ansible' | grep -E '2.9\s'
+	docker run --rm flaconi/ansible:2.9 ansible --version | grep '2.9'
+
+test-29-aws:
+	docker images | grep 'flaconi/ansible' | grep '2.9-aws'
+	docker run --rm flaconi/ansible:2.9-aws ansible --version | grep '2.9'
+	docker run --rm flaconi/ansible:2.9-aws aws --version 2>&1 | grep -E '^aws-cli/[.0-9]+'
+	docker run --rm flaconi/ansible:2.9-aws kubectl version --client --short=true 2>&1 | grep -E 'v[.0-9]+'
+	docker run --rm flaconi/ansible:2.9-aws kops version | grep -E '^Version\s+[.0-9]+'
+
+test-210:
+	docker images | grep 'flaconi/ansible' | grep -E '2.10\s'
+	docker run --rm flaconi/ansible:2.10 ansible --version | grep '2.10'
+
+test-210-aws:
+	docker images | grep 'flaconi/ansible' | grep '2.10-aws'
+	docker run --rm flaconi/ansible:2.10-aws ansible --version | grep '2.10'
+	docker run --rm flaconi/ansible:2.10-aws aws --version 2>&1 | grep -E '^aws-cli/[.0-9]+'
+	docker run --rm flaconi/ansible:2.10-aws kubectl version --client --short=true 2>&1 | grep -E 'v[.0-9]+'
+	docker run --rm flaconi/ansible:2.10-aws kops version | grep -E '^Version\s+[.0-9]+'

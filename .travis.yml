@@ -21,10 +21,6 @@ env:
   global:
     - image=flaconi/ansible
   matrix:
-    - TAG=2.3
-    - TAG=2.3-aws
-    - TAG=2.4
-    - TAG=2.4-aws
     - TAG=2.5
     - TAG=2.5-aws
     - TAG=2.6
@@ -33,6 +29,10 @@ env:
     - TAG=2.7-aws
     - TAG=2.8
     - TAG=2.8-aws
+    - TAG=2.9
+    - TAG=2.9-aws
+    - TAG=2.10
+    - TAG=2.10-aws
     - TAG=latest
     - TAG=latest-aws
 
@@ -55,6 +55,7 @@ install:
 ### Build and test Docker images
 ###
 before_script:
+  - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
   - retry make build-${TAG//.}
   - retry make test-${TAG//.}
 
@@ -64,7 +65,6 @@ before_script:
 ###
 script:
   - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
-      echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin &&
       if [ "${TRAVIS_BRANCH}" == "master" ]; then
         docker push "${image}:${TAG}";
       elif [ -n "${TRAVIS_TAG}" ]; then

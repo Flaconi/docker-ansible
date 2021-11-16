@@ -14,10 +14,8 @@ RUN set -eux \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
 
 RUN set -eux \
-	&& pip install --no-cache-dir \
-		aws \
+	&& pip3 install --no-cache-dir \
 		awscli \
-		boto \
 		boto3 \
 		botocore \
 		openshift
