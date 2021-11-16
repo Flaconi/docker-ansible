@@ -33,8 +33,6 @@ env:
     - TAG=2.9-aws
     - TAG=2.10
     - TAG=2.10-aws
-    - TAG=2.11
-    - TAG=2.11-aws
     - TAG=latest
     - TAG=latest-aws
 
