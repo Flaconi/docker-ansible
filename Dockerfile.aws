@@ -23,11 +23,9 @@ RUN set -eux \
 RUN set -eux \
 	&& curl -Lo /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
 	&& chmod +x /usr/local/bin/kubectl \
-	&& kubectl version --client --short=true 2>&1 \
 	&& kubectl version --client --short=true 2>&1 | grep -E 'v[.0-9]+'
 
 RUN set -eux \
 	&& curl -Lo /usr/local/bin/kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 \
 	&& chmod +x /usr/local/bin/kops \
-	&& kops version \
-	&& kops version | grep -E '^Version\s+[.0-9]+'
+	&& kops version | grep -E '^Client version:\s+[.0-9]+'
